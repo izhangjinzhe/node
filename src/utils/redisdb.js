@@ -4,9 +4,9 @@ import pkg from 'bluebird'
 const { promisifyAll } = pkg
 
 const option = {
-  host: '124.70.164.207',
-  port: 15000,
-  password: '556987',
+  host: '101.43.153.234',
+  port: 6379,
+  password: 'reZhang17.',
   detect_buffers: true,
   retry_strategy: function (options) {
     if (options.error && options.error.code === 'ECONNREFUSED') {
@@ -31,7 +31,7 @@ const option = {
 const client = promisifyAll(redis.createClient(option))
 
 client.on('error', (err) => {
-  console.log('mongodb' + err)
+  console.log('redis连接失败' + err)
 })
 
 client.on('ready', () => {

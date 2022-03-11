@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
+import {DB_URL} from '../config'
 
-const DB_URL = 'mongodb://zhang:556987@124.70.164.207:39000/blog'
 
 // 创建连接
 mongoose.connect(DB_URL, {

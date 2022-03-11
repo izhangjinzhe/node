@@ -1,5 +1,7 @@
 'use strict'
 import nodemailer from 'nodemailer'
+import svgCaptcha from 'svg-captcha'
+import {setValue} from './redisTest'
 
 // async..await is not allowed in global scope, must use a wrapper
 async function send (options) {
@@ -7,22 +9,27 @@ async function send (options) {
 
   // 发件服务器
   let transporter = nodemailer.createTransport({
-    host: 'smtp.88.com',
-    port: 587,
-    secure: false, // true for 465, false for other ports
+    host: 'smtp.exmail.qq.com',
+    port: 465,
+    secure: true, // true for 465, false for other ports
     auth: {
-      user: 'zhangjinzhe@88.com', // generated ethereal user
-      pass: 'bDnuZJcirfCFJgsY' // generated ethereal password
+      user: 'zhangjinzhe@zhangjinzhe.cn', // generated ethereal user
+      pass: 'FpFjLyXG8oZCeRuR' // generated ethereal password
     }
   })
+  const captcha = svgCaptcha.create({
+    size: 6
+  })
+  // 保存验证码对应关系并设置超时时间
+  await setValue(options.path, captcha.text, 5 * 60)
 
   // 发送配置
   return await transporter.sendMail({
-    from: '"社区邮件" <zhangjinzhe@88.com>', // sender address
+    from: '"社区邮件" <zhangjinzhe@zhangjinzhe.cn>', // sender address
     to: options.path, // list of receivers
     subject: `你好，${options.user}！`, // Subject line
-    text: '文本', // plain text body
-    html: '内容' // html body
+    // text: `验证码：${captcha.text}`, // plain text body
+    html: `验证码：${captcha.text}` // html body
   })
 }
 

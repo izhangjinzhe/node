@@ -8,19 +8,18 @@ const zhang = {
   name: 'wang'
 }
 
-const run1 = async () => {
+export const run1 = async () => {
   const data = new UserModel(zhang)
   const result = await data.save()
   console.log(result)
 }
-// run1()
 
 // 删
 const run2 = async () => {
   const result = await UserModel.deleteOne({ name: 'hahahah' })
   console.log(result)
 }
-run2()
+// run2()
 
 // 改
 const run3 = async () => {

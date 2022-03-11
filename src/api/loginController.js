@@ -1,6 +1,6 @@
 import svgCaptcha from 'svg-captcha'
 import send from '../utils/sendMail'
-import { setValue } from '../utils/redisTest'
+import {getValue, setValue} from '../utils/redisTest'
 import jsonwebtoken from 'jsonwebtoken'
 import { JWT_SECRET } from '../config'
 import { checkCode } from '../utils/utils'
@@ -17,7 +17,7 @@ class loginController {
     const captcha = svgCaptcha.create({
       size: 6, //验证码长度
       ignoreChars: '0o1iq9', // 排除
-      noise: Math.floor(Math.random() * 5), // 干扰线条数
+      noise: Math.floor(Math.random() * 3), // 干扰线条数
       color: true // 文字颜色
     })
     // 保存验证码对应关系并设置超时时间
@@ -27,18 +27,54 @@ class loginController {
       data: captcha.data
     }
   }
+  async updatePwd(ctx){
+    const { body } = ctx.request
+    const code = await getValue(body.email)
+    if(code === body.code){
+      console.log(1)
+      const pwd = await bcrypt.hash(body.password, 10)
+      await UserModel.updateOne({email: body.email},{$set:{password: pwd}})
+      ctx.body = {
+        code: 200,
+        data: null,
+        msg: '修改成功'
+      }
+    }else{
+      ctx.body = {
+        code: 401,
+        data: null,
+        msg: '邮箱验证码错误或已过期'
+      }
+    }
+
+  }
 
   async sendMail (ctx) {
-    const { body } = ctx.request
-    console.log(body)
-    const result = await send({
-      path: body.username,
-      user: 'zhangjinzhe', // 查出的user
-      code: body.code
-    })
-    ctx.body = {
-      code: 200,
-      data: result
+    const { query } = ctx.request
+    const user = await UserModel.findOne({ email: query.email })
+    if(user){
+      // const captcha = svgCaptcha.create({
+      //   size: 6, //验证码长度
+      //   ignoreChars: '0o1iq9', // 排除
+      //   noise: Math.floor(Math.random() * 3), // 干扰线条数
+      //   color: true // 文字颜色
+      // })
+      // await setValue(query.email, captcha.text, 5 * 60)
+       await send({
+        path: query.email,
+        user: user.username
+      })
+      ctx.body = {
+        code: 200,
+        data: null,
+        msg: '发送成功'
+      }
+    }else {
+      ctx.body = {
+        code: 401,
+        data: null,
+        msg: '邮箱未找到，请确认是否填写正确'
+      }
     }
   }
 
@@ -56,7 +92,7 @@ class loginController {
         ctx.body = {
           code: 200,
           data: token,
-          msg: '成功'
+          msg: '登录成功'
         }
       } else {
         ctx.body = {
@@ -82,13 +118,14 @@ class loginController {
       const username = await UserModel.findOne({ username: body.username })
       // 判断邮箱是否可用
       if (!username) {
-        const name = await UserModel.findOne({ name: body.name })
-        if (!name) {
+        const email = await UserModel.findOne({ email: body.email })
+        if (!email) {
           const pwd = await bcrypt.hash(body.password, 10)
           const user = new UserModel({
             username: body.username,
-            password: pwd,
-            name: body.name
+            name: body.name,
+            email: body.email,
+            password: pwd
           })
           const result = await user.save()
           ctx.body = {
@@ -100,14 +137,14 @@ class loginController {
           ctx.body = {
             code: 401,
             data: null,
-            msg: '该昵称已被注册,请重新填写!'
+            msg: '该邮箱已被注册,请重新填写!'
           }
         }
       } else {
         ctx.body = {
           code: 401,
           data: null,
-          msg: '该邮箱已被注册,请重新填写!'
+          msg: '该用户名已被注册,请重新填写!'
         }
       }
 
