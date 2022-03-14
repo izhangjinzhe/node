@@ -1,5 +1,5 @@
 FROM node:latest
-COPY package.json /home/project/
+COPY package.json /home/project
 WORKDIR /home/project
 RUN npm i --registry=https://registry.npm.taobao.org
 COPY . /home/project
