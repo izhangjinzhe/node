@@ -1,7 +1,6 @@
 FROM node:latest
-RUN mkdir -p /home/project
+COPY package.json /home/project/
 WORKDIR /home/project
-COPY package.json /home/project/package.json
 RUN npm i --registry=https://registry.npm.taobao.org
 COPY . /home/project
 EXPOSE 3000
