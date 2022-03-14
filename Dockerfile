@@ -1,4 +1,4 @@
-FROM node:lts as builder
+FROM node:latest as builder
 RUN mkdir -p /home/project
 WORKDIR /home/project
 EXPOSE 3000
