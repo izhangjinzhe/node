@@ -1,4 +1,4 @@
-import { getValue } from './redisTest'
+import { getValue } from './redisTest.js'
 
 export const checkCode = async (uuid, code) => {
   const data = await getValue(uuid)

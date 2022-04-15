@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import UserModel from '../model/users'
+import UserModel from '../model/users.js'
 
 // 增
 

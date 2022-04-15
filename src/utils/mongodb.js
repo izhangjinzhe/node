@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import {DB_URL} from '../config'
+import {DB_URL} from '../config/index.js'
 
 
 // 创建连接

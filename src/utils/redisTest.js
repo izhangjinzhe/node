@@ -1,4 +1,4 @@
-import client from './redisdb'
+import client from './redisdb.js'
 import redis from 'redis'
 
 // const { promisify } = require("util");

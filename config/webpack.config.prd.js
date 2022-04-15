@@ -1,10 +1,11 @@
-const TerserJSPlugin = require( 'terser-webpack-plugin' )
-const CssMinimizerPlugin = require( 'css-minimizer-webpack-plugin' )
+import TerserJSPlugin from 'terser-webpack-plugin'
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
+import {merge} from 'webpack-merge'
+import baseConfig from './webpack.config.base.js'
 
-const { merge } = require('webpack-merge')
-const base = require('./webpack.config.base')
+// const base = require('./webpack.config.base')
 
-const webpackConfig = merge(base, {
+const prdConfig = merge(baseConfig, {
   mode: 'production',
   optimization: {
     minimizer: [
@@ -24,4 +25,4 @@ const webpackConfig = merge(base, {
   }
 })
 
-module.exports = webpackConfig
+export default prdConfig

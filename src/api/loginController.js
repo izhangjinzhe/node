@@ -1,10 +1,10 @@
 import svgCaptcha from 'svg-captcha'
-import send from '../utils/sendMail'
-import {getValue, setValue} from '../utils/redisTest'
+import send from '../utils/sendMail.js'
+import {getValue, setValue} from '../utils/redisTest.js'
 import jsonwebtoken from 'jsonwebtoken'
-import { JWT_SECRET } from '../config'
-import { checkCode } from '../utils/utils'
-import UserModel from '../model/users'
+import { JWT_SECRET } from '../config/index.js'
+import { checkCode } from '../utils/utils.js'
+import UserModel from '../model/users.js'
 import bcrypt from 'bcrypt'
 
 class loginController {

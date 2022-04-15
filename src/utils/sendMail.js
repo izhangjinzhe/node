@@ -1,7 +1,7 @@
 'use strict'
 import nodemailer from 'nodemailer'
 import svgCaptcha from 'svg-captcha'
-import {setValue} from './redisTest'
+import {setValue} from './redisTest.js'
 
 // async..await is not allowed in global scope, must use a wrapper
 async function send (options) {

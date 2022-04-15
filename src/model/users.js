@@ -1,4 +1,4 @@
-import mongoose from '../utils/mongodb'
+import mongoose from '../utils/mongodb.js'
 
 const Schema = mongoose.Schema
 

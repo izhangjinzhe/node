@@ -5,8 +5,8 @@ import statics from 'koa-static'
 import compose from 'koa-compose'
 import compress from 'koa-compress'
 import JWT from 'koa-jwt'
-import routes from './routes/routes'
-import { JWT_SECRET } from './config'
+import routes from './routes/routes.js'
+import { JWT_SECRET } from './config/index.js'
 import cors from '@koa/cors'
 import koaBody from 'koa-body'
 
@@ -52,4 +52,4 @@ if (!isDev) {
 }
 app.use(middleware)
 
-app.listen(3000)
+app.listen(10000)

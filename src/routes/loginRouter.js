@@ -1,4 +1,4 @@
-import loginController from '../api/loginController'
+import loginController from '../api/loginController.js'
 
 import koaRouter from '@koa/router'
 
