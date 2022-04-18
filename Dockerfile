@@ -1,4 +1,4 @@
-FROM node as builder
+FROM node:16 as builder
 WORKDIR ./app
 COPY . .
 RUN yarn install --registry=https://registry.npm.taobao.org && yarn build
