@@ -1,4 +1,6 @@
 # Logs
+.idea
+yarn.lock
 logs
 *.log
 npm-debug.log*
