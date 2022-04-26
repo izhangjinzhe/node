@@ -12,7 +12,7 @@ import koaBody from 'koa-body'
 
 const app = new Koa()
 const isDev = process.env.NODE_ENV === 'development'
-const jwt = JWT({ secret: JWT_SECRET }).unless({ path: [/\/getCaptcha/, /\/login/,/\/sendMail/,/\/updatePwd/,/\/register/] })
+const jwt = JWT({ secret: JWT_SECRET }).unless({ path: [/\/public/] })
 const errorHandle = (ctx, next) => {
   return next().catch((err) => {
     if (401 === err.status) {
