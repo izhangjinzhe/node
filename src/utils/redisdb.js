@@ -5,7 +5,7 @@ const { promisifyAll } = pkg
 
 const option = {
   host: '101.43.153.234',
-  port: 6379,
+  port: 17170,
   password: 'reZhang17.',
   detect_buffers: true,
   retry_strategy: function (options) {
