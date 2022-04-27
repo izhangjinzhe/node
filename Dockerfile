@@ -3,5 +3,5 @@ WORKDIR ./app
 COPY . .
 RUN yarn install --registry=https://registry.npmmirror.com/ && yarn build
 
-EXPOSE 8081
+EXPOSE 17777
 CMD ["node", "dist/server.js"]
