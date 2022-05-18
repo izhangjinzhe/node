@@ -52,4 +52,6 @@ if (!isDev) {
 }
 app.use(middleware)
 
-app.listen(17777)
+app.listen(17777,()=>{
+  console.log('已启动服务 http://localhost:17777/')
+})
