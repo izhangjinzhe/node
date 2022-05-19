@@ -32,7 +32,7 @@ class loginController {
     const code = await getValue(body.username)
     if(code === body.code){
       const pwd = await bcrypt.hash(body.password, 10)
-      await UserModel.updateOne({username: body.email},{$set:{password: pwd}})
+      await UserModel.updateOne({username: body.username},{$set:{password: pwd}})
       ctx.body = {
         code: 200,
         data: null,
