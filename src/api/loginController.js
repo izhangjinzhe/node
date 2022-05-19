@@ -16,7 +16,7 @@ class loginController {
     // https://github.com/produck/svg-captcha/blob/HEAD/README_CN.md
     const captcha = svgCaptcha.create({
       size: 6, //验证码长度
-      ignoreChars: '0o1iq9', // 排除
+      ignoreChars: '0oOq9ii1', // 排除
       noise: Math.floor(Math.random() * 3), // 干扰线条数
       color: true // 文字颜色
     })
@@ -29,11 +29,10 @@ class loginController {
   }
   async updatePwd(ctx){
     const { body } = ctx.request
-    const code = await getValue(body.email)
+    const code = await getValue(body.username)
     if(code === body.code){
-      console.log(1)
       const pwd = await bcrypt.hash(body.password, 10)
-      await UserModel.updateOne({email: body.email},{$set:{password: pwd}})
+      await UserModel.updateOne({username: body.email},{$set:{password: pwd}})
       ctx.body = {
         code: 200,
         data: null,
@@ -51,7 +50,7 @@ class loginController {
 
   async sendMail (ctx) {
     const { query } = ctx.request
-    const user = await UserModel.findOne({ email: query.email })
+    const user = await UserModel.findOne({ username: query.email })
     if(user){
       // const captcha = svgCaptcha.create({
       //   size: 6, //验证码长度
@@ -118,36 +117,24 @@ class loginController {
       const username = await UserModel.findOne({ username: body.username })
       // 判断邮箱是否可用
       if (!username) {
-        const email = await UserModel.findOne({ email: body.email })
-        if (!email) {
-          const pwd = await bcrypt.hash(body.password, 10)
-          const user = new UserModel({
-            username: body.username,
-            name: body.name,
-            email: body.email,
-            password: pwd
-          })
-          const result = await user.save()
-          ctx.body = {
-            code: 200,
-            data: result,
-            msg: '注册成功'
-          }
-        } else {
-          ctx.body = {
-            code: 401,
-            data: null,
-            msg: '该邮箱已被注册,请重新填写!'
-          }
+        const pwd = await bcrypt.hash(body.password, 10)
+        const user = new UserModel({
+          username: body.username,
+          password: pwd
+        })
+        const result = await user.save()
+        ctx.body = {
+          code: 200,
+          data: result,
+          msg: '注册成功'
         }
       } else {
         ctx.body = {
           code: 401,
           data: null,
-          msg: '该用户名已被注册,请重新填写!'
+          msg: '该邮箱已被注册,请重新填写!'
         }
       }
-
     } else {
       ctx.body = {
         code: 401,
