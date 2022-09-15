@@ -16,6 +16,7 @@
     "babel-eslint": "^10.1.0",
     "bcrypt": "^5.0.1",
     "bluebird": "^3.7.2",
+    "dayjs": "^1.11.5",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.4",
     "koa-body": "^4.2.0",

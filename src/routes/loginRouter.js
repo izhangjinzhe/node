@@ -1,15 +1,15 @@
-import loginController from '../api/loginController.js'
+import LoginController from '../api/loginController.js'
 
 import koaRouter from '@koa/router'
 
-const router = new koaRouter()
-router.prefix('/api')
+const loginRouter = new koaRouter()
+loginRouter.prefix('/api')
 
-router.get('/public/get_captcha', loginController.getCaptcha)
-router.get('/public/send_mail', loginController.sendMail)
-router.post('/public/update_pwd', loginController.updatePwd)
-router.post('/public/login', loginController.login)
-router.post('/public/register', loginController.register)
+loginRouter.get('/public/get_captcha', LoginController.getCaptcha)
+loginRouter.get('/public/send_mail', LoginController.sendMail)
+loginRouter.post('/public/update_pwd', LoginController.updatePwd)
+loginRouter.post('/public/login', LoginController.login)
+loginRouter.post('/public/register', LoginController.register)
 
-export default router
+export default loginRouter
 

@@ -7,7 +7,7 @@ import { checkCode } from '../utils/utils.js'
 import UserModel from '../model/users.js'
 import bcrypt from 'bcrypt'
 
-class loginController {
+class LoginController {
   constructor () {
   }
 
@@ -84,8 +84,9 @@ class loginController {
       // 判断用户名密码
       const user = await UserModel.findOne({ username: body.username })
       const flag = await bcrypt.compare(body.password, user ? user.password : '')
+      console.log(user)
       if (user && flag) {
-        const token = jsonwebtoken.sign({ id: 'zhang' }, JWT_SECRET, {
+        const token = jsonwebtoken.sign(body``, JWT_SECRET, {
           expiresIn: '1d'
         })
         ctx.body = {
@@ -146,4 +147,4 @@ class loginController {
 
 }
 
-export default new loginController()
+export default new LoginController()
