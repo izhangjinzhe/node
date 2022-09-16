@@ -4,7 +4,7 @@ import {getValue, setValue} from '../utils/redisTest.js'
 import jsonwebtoken from 'jsonwebtoken'
 import { JWT_SECRET } from '../config'
 import { checkCode } from '../utils/utils.js'
-import UserModel from '../model/users.js'
+import UserModel from '../model/user.js'
 import bcrypt from 'bcrypt'
 
 class LoginController {
@@ -84,9 +84,13 @@ class LoginController {
       // 判断用户名密码
       const user = await UserModel.findOne({ username: body.username })
       const flag = await bcrypt.compare(body.password, user ? user.password : '')
-      console.log(user)
+      // const payload = {
+      //   username: user.username,
+      //
+      // }
+      // console.log(1, user, 2, payload)
       if (user && flag) {
-        const token = jsonwebtoken.sign(body``, JWT_SECRET, {
+        const token = jsonwebtoken.sign( {a: 1}, JWT_SECRET, {
           expiresIn: '1d'
         })
         ctx.body = {

@@ -12,7 +12,7 @@ const PostSchema = new Schema({
   tag: String,
   reads: Number,
   answer: Number,
-  userInfo: {type: String, ref: 'users'}
+  userInfo: {type: String, ref: 'user'}
 })
 
 PostSchema.pre('save', function(next) {
@@ -24,7 +24,7 @@ PostSchema.statics = {
   getList: function(options, sort, page, limit) {
     return this.find(options).sort({[sort]: -1}).skip(page * limit).limit(limit).populate({
       path: 'userInfo',
-      select: 'username'
+      select: 'username level pic'
     })
   }
 }
