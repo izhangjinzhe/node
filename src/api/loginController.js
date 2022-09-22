@@ -16,7 +16,7 @@ class LoginController {
     // https://github.com/produck/svg-captcha/blob/HEAD/README_CN.md
     const captcha = svgCaptcha.create({
       size: 6, //验证码长度
-      ignoreChars: '0oOq9ii1', // 排除
+      ignoreChars: '0oOQq9iIlL1jJ', // 排除
       noise: Math.floor(Math.random() * 3), // 干扰线条数
       color: true // 文字颜色
     })
@@ -84,18 +84,19 @@ class LoginController {
       // 判断用户名密码
       const user = await UserModel.findOne({ username: body.username })
       const flag = await bcrypt.compare(body.password, user ? user.password : '')
-      // const payload = {
-      //   username: user.username,
-      //
-      // }
-      // console.log(1, user, 2, payload)
       if (user && flag) {
-        const token = jsonwebtoken.sign( {a: 1}, JWT_SECRET, {
+        const token = jsonwebtoken.sign( {}, JWT_SECRET, {
           expiresIn: '1d'
+        })
+        const data = user.toJSON()
+        const filters = ['password']
+        filters.forEach(n=>{
+          delete data[n]
         })
         ctx.body = {
           code: 200,
-          data: token,
+          data,
+          token,
           msg: '登录成功'
         }
       } else {
@@ -125,6 +126,7 @@ class LoginController {
         const pwd = await bcrypt.hash(body.password, 10)
         const user = new UserModel({
           username: body.username,
+          nickname: body.nickname,
           password: pwd
         })
         const result = await user.save()

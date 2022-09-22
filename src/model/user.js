@@ -2,11 +2,11 @@ import mongoose from '../utils/mongodb.js'
 import dayjs from 'dayjs'
 
 const Schema = mongoose.Schema
-
+console.log(global)
 const UserSchema = new Schema({
   username: { type: String, index: {unique: true}, sparse: true},
-  name: { type: String, default: ''},
-  password: { type: String},
+  password: { type: String },
+  nickname: {type: String, default: '' },
   phone: { type: String, default: ''},
   gender: { type: Number, default: ''},
   email: { type: String, default: ''},
@@ -14,10 +14,10 @@ const UserSchema = new Schema({
   created: { type: String},
   updated: { type: String},
   roles: {type: Array, default: ['user']},
-  pic: { type: String, default: '/img/logo.jpeg'},
+  pic: { type: String, default: 'http://zhangjinzhe.cn:17777/img/logo.jpeg'},
   status: { type: Number, default: 1},
   location: { type: String, default: ''},
-  remark: { type: String, default: ''}
+  remark: { type: String, default: '你还没有介绍自己'}
 })
 
 UserSchema.pre('save', function (next){
