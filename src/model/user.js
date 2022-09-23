@@ -2,7 +2,6 @@ import mongoose from '../utils/mongodb.js'
 import dayjs from 'dayjs'
 
 const Schema = mongoose.Schema
-console.log(global)
 const UserSchema = new Schema({
   username: { type: String, index: {unique: true}, sparse: true},
   password: { type: String },
